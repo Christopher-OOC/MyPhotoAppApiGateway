@@ -16,6 +16,7 @@ spring:
         predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
         filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
+        filters[2]: AuthorizationHeaderFilter
       discovery:
         locator:
           enabled: true
