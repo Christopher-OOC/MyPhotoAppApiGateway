@@ -11,12 +11,37 @@ spring:
       routes[0]:
         id: users-status-check
         uri: lb://MyPhotoAppApiUsers
-        predicates[0]: Path=/users-ws/users/status/check
+        predicates[0]: Path=/users/status/check
         predicates[1]: Method=GET
         predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
-        filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
-        filters[2]: AuthorizationHeaderFilter
+       # filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
+        filters[1]: AuthorizationHeaderFilter
+      routes[1]:
+        id: users-create
+        uri: lb://MyPhotoAppApiUsers
+        predicates[0]: Path=/users
+        predicates[1]: Method=POST
+       # predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+      #  filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
+      routes[2]:
+        id: users-login
+        uri: lb://MyPhotoAppApiUsers
+        predicates[0]: Path=/users/login
+        predicates[1]: Method=POST
+      #  predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+      #  filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
+      routes[3]:
+        id: users-get-update-delete
+        uri: lb://MyPhotoAppApiUsers
+        predicates[0]: Path=/users/**
+        predicates[1]: Method=GET,PUT,DELETE
+        predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+        # filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
+        filters[1]: AuthorizationHeaderFilter
       discovery:
         locator:
           enabled: true
