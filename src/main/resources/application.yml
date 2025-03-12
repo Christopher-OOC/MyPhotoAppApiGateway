@@ -11,9 +11,11 @@ spring:
       routes[0]:
         id: users-status-check
         uri: lb://MyPhotoAppApiUsers
-        predicates[0]: Path=/users/status/check
+        predicates[0]: Path=/users-ws/users/status/check
         predicates[1]: Method=GET
+        predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/users-ws/users/status/check, /users/status/check
       discovery:
         locator:
           enabled: true
